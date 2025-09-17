@@ -11,7 +11,8 @@ from blog.class_views import (
     BlogPostListView,
     BlogPostDetailView,
     BlogPostCreateView,
-    BlogPostUpdateView
+    BlogPostUpdateView,
+    BlogPostDeleteView
 )
 
 urlpatterns = [
@@ -25,4 +26,6 @@ urlpatterns = [
     path('class_blog_post_detail/<int:pk>/', BlogPostDetailView.as_view(), name='class_blog_post_detail'),
     path('class_blog_post_create/', BlogPostCreateView.as_view(), name='class_blog_post_create'),
     path('class_blog_post_update/<int:pk>/', BlogPostUpdateView.as_view(), name='class_blog_post_update'),
+    path('class_blog_post_delete/<int:pk>/', BlogPostDeleteView.as_view(), name='class_blog_post_delete')
+
 ]
