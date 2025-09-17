@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 
-from blog.forms import BlogPostModelForm
+from blog.forms import BlogPostModelForm, UpdateBlogPostModelForm
 from blog.models import BlogPost, BannerImage
 
 
@@ -27,6 +27,21 @@ def blog_post_create(request):
         form = BlogPostModelForm()
     return render(request, template_name='blog_create.html', context={'form': form})
 
+
+def blog_post_update(request, pk):
+    blog = BlogPost.objects.filter(pk=pk).first()
+    if not blog:
+        return redirect('not_found')
+
+    if request.method == 'POST':
+        form = UpdateBlogPostModelForm(request.POST, instance=blog)
+        if form.is_valid():
+            form.save()
+            return redirect('blog_post_detail', pk=blog.pk)
+    else:
+        form = UpdateBlogPostModelForm(instance=blog)
+
+    return render(request, 'blog_update.html', {'form': form})
 
 def not_found(request):
     return render(request, template_name='404.html')

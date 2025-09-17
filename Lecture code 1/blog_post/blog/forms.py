@@ -8,3 +8,9 @@ class BlogPostModelForm(forms.ModelForm):
     class Meta:
         model = BlogPost
         fields = ['title', 'text', 'active', 'document', 'category', 'authors', 'banner_image']
+
+
+class UpdateBlogPostModelForm(forms.ModelForm):
+    class Meta:
+        model = BlogPost
+        fields = ['title', 'text', 'document', 'category']
