@@ -1,6 +1,7 @@
-from django.views.generic import ListView, DetailView, CreateView
+from django.urls import reverse_lazy
+from django.views.generic import ListView, DetailView, CreateView, UpdateView
 
-from blog.forms import BlogPostModelForm
+from blog.forms import BlogPostModelForm, UpdateBlogPostModelForm
 from blog.models import BlogPost, BannerImage
 
 
@@ -33,3 +34,12 @@ class BlogPostCreateView(CreateView):
         BannerImage.objects.create(blog_post=blog_post, image=banner_image)
 
         return response
+
+
+class BlogPostUpdateView(UpdateView):
+    model = BlogPost
+    form_class = UpdateBlogPostModelForm
+    template_name = 'class_blog_update.html'
+
+    def get_success_url(self):
+        return reverse_lazy('class_blog_post_detail', kwargs={'pk': self.object.pk})
