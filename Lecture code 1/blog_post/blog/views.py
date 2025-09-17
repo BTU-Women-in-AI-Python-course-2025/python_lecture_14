@@ -1,5 +1,7 @@
 from django.shortcuts import render, redirect
-from blog.models import BlogPost
+
+from blog.forms import BlogPostModelForm
+from blog.models import BlogPost, BannerImage
 
 
 def blog_post_list(request):
@@ -12,6 +14,18 @@ def blog_post_detail(request, pk):
     if not blog:
         return redirect('not_found')
     return render(request, template_name='blog_detail.html', context={'blog': blog})
+
+def blog_post_create(request):
+    if request.method == 'POST':
+        form = BlogPostModelForm(request.POST, request.FILES)
+        if form.is_valid():
+            blog_post = form.save()
+            banner_image = form.cleaned_data['banner_image']
+            BannerImage.objects.create(blog_post=blog_post, image=banner_image)
+            return redirect('blog_post_list')
+    else:
+        form = BlogPostModelForm()
+    return render(request, template_name='blog_create.html', context={'form': form})
 
 
 def not_found(request):
