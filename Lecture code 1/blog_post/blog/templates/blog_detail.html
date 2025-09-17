@@ -9,4 +9,5 @@
     <p>{{ blog.website }}</p>
     <p>{{ blog.text }}</p>
     <a href="{% url 'blog_post_update' blog.pk %}">Edit</a>
+    <a href="{% url 'blog_post_delete' blog.pk %}">Delete</a>
 {% endblock %}
