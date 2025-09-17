@@ -8,7 +8,6 @@ def blog_post_list(request):
     blog_posts = BlogPost.objects.filter(deleted=False)
     return render(request, template_name='blog_list.html', context={'blog_posts': blog_posts})
 
-
 def blog_post_detail(request, pk):
     blog = BlogPost.objects.filter(pk=pk).first()
     if not blog:
@@ -55,7 +54,7 @@ def blog_post_delete(request, pk):
         # blog.save()
         return redirect('blog_post_list')
 
-    return render(request, 'blog_post_confirm_delete.html', {'blog': blog})
+    return render(request, template_name='blog_post_confirm_delete.html', context={'blog': blog})
 
 def not_found(request):
     return render(request, template_name='404.html')

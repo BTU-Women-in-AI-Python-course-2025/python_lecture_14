@@ -1,0 +1,35 @@
+from django.views.generic import ListView, DetailView, CreateView
+
+from blog.forms import BlogPostModelForm
+from blog.models import BlogPost, BannerImage
+
+
+class BlogPostListView(ListView):
+    model = BlogPost
+    template_name = 'class_blog_list.html'
+    context_object_name = 'blog_posts'
+    queryset = BlogPost.objects.filter(deleted=False)
+
+
+class BlogPostDetailView(DetailView):
+    model = BlogPost
+    template_name = 'class_blog_detail.html'
+    context_object_name = 'blog'
+
+
+class BlogPostCreateView(CreateView):
+    model = BlogPost
+    # fields = ['title', 'text', 'active', 'document', 'category', 'authors']
+    template_name = 'class_blog_create.html'
+    success_url = '/blog/class_blog_post_list/'
+    form_class = BlogPostModelForm
+
+    def form_valid(self, form):
+        form.instance.created_by = self.request.user
+
+        response = super().form_valid(form)
+        banner_image = form.cleaned_data['banner_image']
+        blog_post = self.object
+        BannerImage.objects.create(blog_post=blog_post, image=banner_image)
+
+        return response
