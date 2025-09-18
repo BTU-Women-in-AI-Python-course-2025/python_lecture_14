@@ -8,7 +8,7 @@ def not_found(request):
     return render(request, '404.html')
 
 def blog_post_list(request):
-    blogs = BlogPost.objects.all()
+    blogs = BlogPost.objects.filter(deleted=False).order_by('-id')
     return render(request, template_name='blog_list.html', context={'blogs': blogs})
 
 
@@ -47,3 +47,15 @@ def blog_update(request, pk):
         form = UpdateBlogPostModelForm(instance=blog)  # Pre-fill the form with existing data
 
     return render(request, template_name='blog_update.html', context={'form': form})
+
+def blog_delete(request, pk):
+    blog = BlogPost.objects.filter(id=pk).first()
+    if not blog:
+        return redirect('not_found')
+
+    if request.method == 'POST':
+        blog.deleted = True
+        blog.save()
+        return redirect('blog_list')
+
+    return render(request, template_name='blog_confirm_delete.html', context={'blog': blog})

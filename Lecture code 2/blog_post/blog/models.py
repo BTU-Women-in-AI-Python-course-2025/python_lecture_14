@@ -62,6 +62,7 @@ class BlogPost(models.Model):
     document = models.FileField(upload_to='blog_post_documents/', null=True)
 
     category = models.IntegerField(verbose_name='Category', choices=CATEGORY_CHOICES, null=True)
+    deleted = models.BooleanField(verbose_name="Deleted", default=False)
 
     def get_images(self):
         return self.images.all()
