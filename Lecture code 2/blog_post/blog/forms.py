@@ -25,8 +25,8 @@ class BlogPostForm(forms.Form):
     is_active = forms.BooleanField(label="Is active")
 
 
-class BlogPostModelForm(forms.ModelForm):
-    cover = forms.ImageField(label="Cover")
+class CreateBlogPostModelForm(forms.ModelForm):
+    cover = forms.ImageField(label="Cover", required=False)
 
     class Meta:
         model = BlogPost
