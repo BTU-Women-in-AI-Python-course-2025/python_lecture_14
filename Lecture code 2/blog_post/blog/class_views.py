@@ -1,3 +1,4 @@
+from django.db.models import Q
 from django.shortcuts import redirect
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 
@@ -10,6 +11,7 @@ class BlogPostyListView(ListView):
     template_name = 'class_blog_list.html'
     context_object_name = 'blogs'
     queryset = BlogPost.objects.filter(deleted=False).order_by('-id')
+    # queryset = BlogPost.objects.filter(Q(deleted=False) | Q(is_active=True), title='Blog 1').order_by('-id')
 
 
 class BlogPostDetailView(DetailView):
