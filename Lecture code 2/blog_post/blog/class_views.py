@@ -1,4 +1,4 @@
-from django.views.generic import ListView, DetailView, CreateView
+from django.views.generic import ListView, DetailView, CreateView, UpdateView
 
 from blog.forms import BlogPostForm, CreateBlogPostModelForm
 from blog.models import BlogPost, BlogPostCover
@@ -30,3 +30,13 @@ class BlogPostCreateView(CreateView):
         if cover:
             BlogPostCover.objects.create(blog_post=self.object, image=cover)
         return response
+
+
+class BlogPostUpdateView(UpdateView):
+    model = BlogPost
+    fields = ['title', 'text', 'document', 'is_active', 'category']
+    template_name = 'class_blog_update.html'
+
+    def get_success_url(self):
+        return f'/blog/class_blog_detail/{self.object.id}/'
+
