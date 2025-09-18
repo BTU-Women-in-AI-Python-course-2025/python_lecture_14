@@ -31,3 +31,9 @@ class CreateBlogPostModelForm(forms.ModelForm):
     class Meta:
         model = BlogPost
         fields = ['title', 'text', 'document', 'is_active', 'category', 'authors', 'cover']
+
+
+class UpdateBlogPostModelForm(forms.ModelForm):
+    class Meta:
+        model = BlogPost
+        fields = ['title', 'text', 'document', 'is_active', 'category']
