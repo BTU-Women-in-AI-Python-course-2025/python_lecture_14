@@ -7,6 +7,10 @@ from blog.views import (
     blog_update,
     blog_delete
 )
+from blog.class_views import (
+    BlogPostyListView,
+    BlogPostDetailView
+)
 
 urlpatterns = [
     path('not_found', not_found, name='not_found'),
@@ -15,4 +19,6 @@ urlpatterns = [
     path('blog_create/', blog_create, name='blog_create'),
     path('blog_update/<int:pk>/', blog_update, name='blog_update'),
     path('blog_delete/<int:pk>/', blog_delete, name='blog_delete'),
+    path('class_blog_list/', BlogPostyListView.as_view(), name='class_blog_list'),
+    path('class_blog_detail/<int:pk>/', BlogPostDetailView.as_view(), name='class_blog_detail'),
 ]
