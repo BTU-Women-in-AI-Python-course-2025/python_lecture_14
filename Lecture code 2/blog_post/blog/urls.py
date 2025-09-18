@@ -9,7 +9,8 @@ from blog.views import (
 )
 from blog.class_views import (
     BlogPostyListView,
-    BlogPostDetailView
+    BlogPostDetailView,
+    BlogPostCreateView
 )
 
 urlpatterns = [
@@ -21,4 +22,5 @@ urlpatterns = [
     path('blog_delete/<int:pk>/', blog_delete, name='blog_delete'),
     path('class_blog_list/', BlogPostyListView.as_view(), name='class_blog_list'),
     path('class_blog_detail/<int:pk>/', BlogPostDetailView.as_view(), name='class_blog_detail'),
+    path('class_blog_create/', BlogPostCreateView.as_view(), name='class_blog_create'),
 ]

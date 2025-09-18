@@ -1,5 +1,8 @@
-from django.views.generic import ListView, DetailView
-from blog.models import BlogPost
+from django.views.generic import ListView, DetailView, CreateView
+
+from blog.forms import BlogPostForm, CreateBlogPostModelForm
+from blog.models import BlogPost, BlogPostCover
+
 
 class BlogPostyListView(ListView):
     model = BlogPost
@@ -7,7 +10,23 @@ class BlogPostyListView(ListView):
     context_object_name = 'blogs'
     queryset = BlogPost.objects.filter(deleted=False).order_by('-id')
 
+
 class BlogPostDetailView(DetailView):
     model = BlogPost
     template_name = 'class_blog_detail.html'
     context_object_name = 'blog'
+
+
+class BlogPostCreateView(CreateView):
+    model = BlogPost
+    # fields = ['title', 'text', 'document', 'is_active', 'category', 'authors']
+    template_name = 'class_blog_create.html'
+    success_url = '/blog/class_blog_list/'
+    form_class = CreateBlogPostModelForm
+
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        cover = form.cleaned_data.get('cover')
+        if cover:
+            BlogPostCover.objects.create(blog_post=self.object, image=cover)
+        return response
