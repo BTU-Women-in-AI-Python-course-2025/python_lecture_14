@@ -1,4 +1,6 @@
-from django.views.generic import ListView, DetailView, CreateView, UpdateView
+from django.shortcuts import redirect
+from django.urls import reverse_lazy
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 
 from blog.forms import BlogPostForm, CreateBlogPostModelForm
 from blog.models import BlogPost, BlogPostCover
@@ -40,3 +42,13 @@ class BlogPostUpdateView(UpdateView):
     def get_success_url(self):
         return f'/blog/class_blog_detail/{self.object.id}/'
 
+
+class BlogPostDeleteView(DeleteView):
+    model = BlogPost
+    template_name = 'class_blog_confirm_delete.html'
+    context_object_name = 'blog'
+
+    def form_valid(self, form):
+        self.object.deleted  = True
+        self.object.save()
+        return redirect('class_blog_list')
